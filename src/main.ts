@@ -1,8 +1,15 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
+import { ApplicationModule } from './application.module';
+import { applySwagger } from './helpers/applySwagger';
 
-async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+async function bootstrap(): Promise<void> {
+  const app = await NestFactory.create(ApplicationModule);
+  applySwagger(app);
+  app.useGlobalPipes(new ValidationPipe());
+  app.setGlobalPrefix('api');
+
   await app.listen(3000);
 }
-bootstrap();
+
+(async () => bootstrap())();
