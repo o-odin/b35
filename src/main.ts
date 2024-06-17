@@ -5,9 +5,10 @@ import { applySwagger } from './helpers/applySwagger';
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(ApplicationModule);
-  applySwagger(app);
   app.useGlobalPipes(new ValidationPipe());
   app.setGlobalPrefix('api');
+
+  applySwagger(app);
 
   await app.listen(3000);
 }
